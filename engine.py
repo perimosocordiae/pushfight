@@ -144,8 +144,8 @@ class BoardState(object):
 
   def _valid_slides(self, player):
     # find all pieces of our color
-    mask = ((self._board & PIECE_MASK).astype(bool) &
-            (self._board & BLACK_MASK).astype(bool) == bool(player))
+    mask = (self._board & PIECE_MASK).astype(bool)
+    mask &= (self._board & BLACK_MASK).astype(bool) == bool(player)
     open_spaces = (self._board==0).astype(int)
     for i0,j0 in zip(*np.where(mask)):
       regions = open_spaces.copy()
@@ -158,8 +158,8 @@ class BoardState(object):
 
   def _valid_pushes(self, player):
     # find all pushers of our color
-    mask = ((self._board & PUSHER_MASK).astype(bool) &
-            (self._board & BLACK_MASK).astype(bool) == bool(player))
+    mask = (self._board & PUSHER_MASK).astype(bool)
+    mask &= (self._board & BLACK_MASK).astype(bool) == bool(player)
     for i0,j0 in zip(*np.where(mask)):
       for di,dj in [(-1,0),(1,0),(0,-1),(0,1)]:
         i1, j1 = i0+di, j0+dj
